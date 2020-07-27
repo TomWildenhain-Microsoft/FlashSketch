@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="Ribbon_Load">
+	<ribbon>
+		<tabs>
+			<tab idMso="TabAddIns">
+				<group id="ContentGroup" label="FlashSketch">
+					<button id="newArtboardButton" label="New Artboard"
+						 screentip="Text" onAction="OnNewArtboard"
+						 supertip="Creates a new Artboard"/>
+				</group>
+			</tab>
+		</tabs>
+	</ribbon>
+</customUI>
+
