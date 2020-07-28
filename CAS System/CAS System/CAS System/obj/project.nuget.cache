@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "zNADsJrBDn/5VdCbktWWU8qgzT+9cDkMKA5URWrtPAxkr8XK/ZdxtxNf8szHFypmbh73q5AiANDuKCGTbNGE7g==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\tomwi\\OneDrive - Microsoft\\FlashSketch\\Git repo\\CAS System\\CAS System\\CAS System\\CAS System.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tomwi\\.nuget\\packages\\fsharp.core\\4.7.1\\fsharp.core.4.7.1.nupkg.sha512"
+  ],
+  "logs": []
+}

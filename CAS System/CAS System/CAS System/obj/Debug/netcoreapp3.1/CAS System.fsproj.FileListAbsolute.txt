@@ -1,0 +1,27 @@
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\CAS System.exe
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\CAS System.deps.json
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\CAS System.runtimeconfig.json
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\CAS System.runtimeconfig.dev.json
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\CAS System.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\CAS System.pdb
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\FSharp.Core.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\cs\FSharp.Core.resources.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\de\FSharp.Core.resources.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\es\FSharp.Core.resources.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\fr\FSharp.Core.resources.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\it\FSharp.Core.resources.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\ja\FSharp.Core.resources.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\ko\FSharp.Core.resources.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\pl\FSharp.Core.resources.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\pt-BR\FSharp.Core.resources.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\ru\FSharp.Core.resources.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\tr\FSharp.Core.resources.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\zh-Hans\FSharp.Core.resources.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\bin\Debug\netcoreapp3.1\zh-Hant\FSharp.Core.resources.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\obj\Debug\netcoreapp3.1\CAS System.fsprojAssemblyReference.cache
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\obj\Debug\netcoreapp3.1\CAS System.AssemblyInfoInputs.cache
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\obj\Debug\netcoreapp3.1\CAS System.AssemblyInfo.fs
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\obj\Debug\netcoreapp3.1\CAS System.fsproj.CopyComplete
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\obj\Debug\netcoreapp3.1\CAS System.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\obj\Debug\netcoreapp3.1\CAS System.pdb
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\CAS System\CAS System\CAS System\obj\Debug\netcoreapp3.1\CAS System.genruntimeconfig.cache

@@ -45,6 +45,16 @@ namespace PowerPointAddIn1
             artboard.TextFrame.TextRange.Font.Color.RGB = System.Drawing.Color.Black.ToArgb();
             artboard.Name = "Artboard " + (artboard.Id-1);
             artboard.Select();
+            TestCas();
+        }
+
+        public void TestCas()
+        {
+            var cas = new CasSystem();
+            var v1 = cas.VarExpr(cas.NewVar());
+            var v2 = cas.VarExpr(cas.NewVar());
+            var three = cas.ConstExpr(3);
+            MessageBox.Show(cas.Add(v1, cas.Add(v2, v1)).ToString());
         }
     }
 }
