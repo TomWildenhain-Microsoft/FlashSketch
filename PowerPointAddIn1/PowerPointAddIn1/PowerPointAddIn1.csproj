@@ -153,6 +153,7 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="AlignHelper.cs" />
     <Compile Include="CAS.cs" />
     <Compile Include="FlashSketch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -177,6 +178,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Ribbon1.cs" />
+    <Compile Include="SlideScanner.cs" />
+    <Compile Include="SnapDetector.cs" />
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>

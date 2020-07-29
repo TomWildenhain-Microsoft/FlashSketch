@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 using Office = Microsoft.Office.Core;
 using System.Windows.Forms;
+using Microsoft.Office.Core;
+using System.ComponentModel.Design;
 
 namespace PowerPointAddIn1
 {
@@ -15,6 +17,7 @@ namespace PowerPointAddIn1
         public PowerPoint.Presentation Pres = null;
         public PowerPoint.Application Application = null;
         public PowerPoint.SlideRange SlideSelection = null;
+        public PowerPoint.Selection Selection = null;
 
         public FlashSketch()
         {
@@ -45,16 +48,72 @@ namespace PowerPointAddIn1
             artboard.TextFrame.TextRange.Font.Color.RGB = System.Drawing.Color.Black.ToArgb();
             artboard.Name = "Artboard " + (artboard.Id-1);
             artboard.Select();
-            TestCas();
         }
 
-        public void TestCas()
+        internal void DistributeHorizontally()
         {
-            var cas = new CasSystem();
-            var v1 = cas.VarExpr(cas.NewVar());
-            var v2 = cas.VarExpr(cas.NewVar());
-            var three = cas.ConstExpr(3);
-            MessageBox.Show(cas.Add(v1, cas.Add(v2, v1)).ToString());
+            throw new NotImplementedException();
+        }
+
+        internal void DistributeVertically()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void MakeSquare()
+        {
+            if (Selection == null || Selection.Type != PowerPoint.PpSelectionType.ppSelectionShapes || Selection.ShapeRange.Count != 1)
+            {
+                return;
+            }
+            int id = Selection.ShapeRange[1].Id;
+            SnapDetector.Instance.MakeSquare(SlideScanner.Instance.ScanSlide(SlideSelection[1]), id);
+        }
+
+        internal void EqualizeHeights()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void EqualizeWidths()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PrintToNotes(string text)
+        {
+            if (SlideSelection == null || SlideSelection.Count != 1) return;
+            var slide = SlideSelection[1];
+            foreach (PowerPoint.Shape shape in slide.NotesPage.Shapes)
+            {
+                if (shape.HasTextFrame == Office.MsoTriState.msoTrue)
+                    if (shape.Name.StartsWith("Notes"))
+                        shape.TextFrame.TextRange.Text += text + "\n";
+            }
+        }
+
+        public void ClearNotes()
+        {
+            if (SlideSelection == null || SlideSelection.Count != 1) return;
+            var slide = SlideSelection[1];
+            foreach (PowerPoint.Shape shape in slide.NotesPage.Shapes)
+            {
+                if (shape.HasTextFrame == Office.MsoTriState.msoTrue)
+                    if (shape.Name.StartsWith("Notes"))
+                        shape.TextFrame.TextRange.Text = "";
+            }
+        }
+
+
+        public void EqualizeLineLengths()
+        {
+            if (Selection == null || Selection.Type != PowerPoint.PpSelectionType.ppSelectionShapes || Selection.ShapeRange.Count != 2)
+            {
+                return;
+            }
+            int id1 = Selection.ShapeRange[1].Id;
+            int id2 = Selection.ShapeRange[2].Id;
+            SnapDetector.Instance.EqualizeLongerDims(SlideScanner.Instance.ScanSlide(SlideSelection[1]), id1, id2);
         }
     }
 }

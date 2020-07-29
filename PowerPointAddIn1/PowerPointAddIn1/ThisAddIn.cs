@@ -28,8 +28,7 @@ namespace PowerPointAddIn1
 
         private void Application_WindowSelectionChange(PowerPoint.Selection Sel)
         {
-            //MessageBox.Show("Window selection changed!");
-            
+            FlashSketch.Instance.Selection = Sel;
         }
 
         private void Application_SlideSelectionChanged(PowerPoint.SlideRange SldRange)

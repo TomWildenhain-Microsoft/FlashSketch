@@ -42,6 +42,35 @@ namespace PowerPointAddIn1
         {
             FlashSketch.Instance.NewArtboard();
         }
+        public void OnEqualizeWidths(Office.IRibbonControl control)
+        {
+            FlashSketch.Instance.EqualizeWidths();
+        }
+
+        public void OnEqualizeHeights(Office.IRibbonControl control)
+        {
+            FlashSketch.Instance.EqualizeHeights();
+        }
+
+        public void OnMakeSquare(Office.IRibbonControl control)
+        {
+            FlashSketch.Instance.MakeSquare();
+        }
+
+        public void OnDistributeHorizontally(Office.IRibbonControl control)
+        {
+            FlashSketch.Instance.DistributeHorizontally();
+        }
+
+        public void OnDistributeVertically(Office.IRibbonControl control)
+        {
+            FlashSketch.Instance.DistributeVertically();
+        }
+
+        public void OnEqualizeLineLengths(Office.IRibbonControl control)
+        {
+            FlashSketch.Instance.EqualizeLineLengths();
+        }
 
         #region IRibbonExtensibility Members
 

@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace PowerPointAddIn1
+namespace CasTests
 {
     class CasSystem
     {
@@ -60,7 +55,7 @@ namespace PowerPointAddIn1
             {
                 return new CasExpr(expr1.Poly1, expr2.Poly2);
             }
-            return new CasExpr(CasPolynomial.PolyProd(expr1.Poly1, expr2.Poly1), CasPolynomial.PolyProd(expr1.Poly2, expr2.Poly2));
+            return new CasExpr(CasPolynomial.PolyProd(expr1.Poly1, expr2.Poly1), CasPolynomial.PolyProd(expr1.Poly2, expr2.Poly1));
         }
         public CasExpr Div(CasExpr expr1, CasExpr expr2)
         {
@@ -205,14 +200,6 @@ namespace PowerPointAddIn1
             float res2 = expr.Poly2.Eval(values);
             return res1 / res2;
         }
-
-        public HashSet<CasVar> UsedVariables(CasExpr expr)
-        {
-            HashSet<CasVar> res = new HashSet<CasVar>();
-            expr.Poly1.GetUsedVariables(res);
-            expr.Poly2.GetUsedVariables(res);
-            return res;
-        }
     }
 
     class CasTerm
@@ -241,6 +228,7 @@ namespace PowerPointAddIn1
         }
         public CasTerm CopyWithCoefficient(int c)
         {
+            if (c == Coefficient) return this;
             var copy = new CasTerm(c);
             foreach (var v in Variables)
             {
@@ -249,13 +237,14 @@ namespace PowerPointAddIn1
             return copy;
         }
 
-        public float Eval(Dictionary<CasVar,float> values) 
+        public float Eval(Dictionary<CasVar, float> values)
         {
             float res = 1.0f;
-            foreach (var v in Variables.Keys) {
+            foreach (var v in Variables.Keys)
+            {
                 res *= (float)Math.Pow(values[v], Variables[v]);
             }
-            return res * Coefficient; 
+            return res * Coefficient;
         }
 
         public CasExpr Substitute(CasExpr expr, CasVar forV)
@@ -285,13 +274,6 @@ namespace PowerPointAddIn1
                 {
                     Variables.Remove(v);
                 }
-            }
-        }
-        public void GetUsedVariables(HashSet<CasVar> res)
-        {
-            foreach (var v in Variables.Keys)
-            {
-                res.Add(v);
             }
         }
 
@@ -418,13 +400,6 @@ namespace PowerPointAddIn1
             }
             Terms = newTerms;
         }
-        public void GetUsedVariables(HashSet<CasVar> res)
-        {
-            foreach (var t in Terms)
-            {
-                t.GetUsedVariables(res);
-            }
-        }
         public static CasPolynomial PolySum(CasPolynomial poly1, CasPolynomial poly2)
         {
             CasPolynomial res = new CasPolynomial();
@@ -504,10 +479,6 @@ namespace PowerPointAddIn1
         public CasVar(string name)
         {
             Name = name;
-        }
-        public override string ToString()
-        {
-            return Name;
         }
         public int CompareTo(CasVar other)
         {
