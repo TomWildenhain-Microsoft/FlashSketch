@@ -14,24 +14,26 @@ namespace PowerPointAddIn1
     class SlideScanner
     {
         public static SlideScanner Instance = new SlideScanner();
+        // public Dictionary<int, SlideObject> LastScan = null;
         public SlideScanner()
         {
 
         }
 
-        public List<SlideObject> ScanSlide(PowerPoint.Slide slide)
+        public Dictionary<int, SlideObject> ScanSlide(PowerPoint.Slide slide)
         {
-            List<SlideObject> res = new List<SlideObject>();
+            Dictionary<int, SlideObject> res = new Dictionary<int, SlideObject>();
             foreach (PowerPoint.Shape shape in slide.Shapes)
             {
                 ScanShape(shape, res, "");
             }
+            // LastScan = res;
             return res;
         }
 
-        void ScanShape(PowerPoint.Shape shape, List<SlideObject> res, string prefix)
+        void ScanShape(PowerPoint.Shape shape, Dictionary<int, SlideObject> res, string prefix)
         {
-            res.Add(new SlideObject(shape.Left, shape.Top, shape.Width, shape.Height, shape.Id, shape));
+            res[shape.Id] = new SlideObject(shape.Left, shape.Top, shape.Width, shape.Height, shape.Id, shape.Name, shape);
             //FlashSketch.Instance.PrintToNotes(prefix + shape.Name + " " + shape.Left + " " + shape.Top + " " + shape.Width + " " + shape.Height);
             if (shape.Type == MsoShapeType.msoGroup)
             {
@@ -42,10 +44,10 @@ namespace PowerPointAddIn1
             }
         }
 
-        public void ApplyDimsToShapes(List<SlideObject> dimensions, Dictionary<CasVar, float> values)
+        public void ApplyDimsToShapes(Dictionary<int, SlideObject> dimensions, Dictionary<CasVar, float> values)
         {
             FlashSketch.Instance.Application.StartNewUndoEntry();
-            foreach (SlideObject obj in dimensions)
+            foreach (SlideObject obj in dimensions.Values)
             {
                 obj.Shape.Width = CasSystem.Instance.Eval(obj.WidthExpr, values);
                 obj.Shape.Height = CasSystem.Instance.Eval(obj.HeightExpr, values);
@@ -66,12 +68,13 @@ namespace PowerPointAddIn1
         public float CY;
         public float CX;
         public int ShapeId;
+        public string ShapeName;
         public CasExpr XExpr = null;
         public CasExpr YExpr = null;
         public CasExpr WidthExpr = null;
         public CasExpr HeightExpr = null;
         public PowerPoint.Shape Shape;
-        public SlideObject(double x, double y, double width, double height, int id, PowerPoint.Shape shape)
+        public SlideObject(double x, double y, double width, double height, int id, string shapeName, PowerPoint.Shape shape)
         {
             X1 = (float)x;
             Y1 = (float)y;
@@ -83,6 +86,7 @@ namespace PowerPointAddIn1
             CY = (float)(y + height / 2);
             ShapeId = id;
             Shape = shape;
+            ShapeName = shapeName;
         }
         public CasExpr LongerDimExpr()
         {

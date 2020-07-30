@@ -8,6 +8,7 @@ using Office = Microsoft.Office.Core;
 using System.Windows.Forms;
 using Microsoft.Office.Core;
 using System.ComponentModel.Design;
+using Microsoft.Office.Interop.PowerPoint;
 
 namespace PowerPointAddIn1
 {
@@ -29,7 +30,7 @@ namespace PowerPointAddIn1
             if (SlideSelection == null || SlideSelection.Count != 1) return;
             var slide = SlideSelection[1];
             Application.StartNewUndoEntry();
-            PowerPoint.Shape artboard = slide.Shapes.AddShape(Office.MsoAutoShapeType.msoShapeRectangle, 25, 10, 50, 50);
+            PowerPoint.Shape artboard = slide.Shapes.AddShape(Office.MsoAutoShapeType.msoShapeRectangle, 25, 10, 50, 60);
             artboard.TextFrame.TextRange.InsertAfter("Artboard");
             artboard.Fill.ForeColor.RGB = System.Drawing.Color.White.ToArgb();
             artboard.Line.Visible = Office.MsoTriState.msoFalse;
@@ -44,20 +45,58 @@ namespace PowerPointAddIn1
             artboard.TextFrame.MarginBottom = 0;
             artboard.TextFrame.MarginLeft = 0;
             artboard.TextFrame.MarginRight = 0;
-            artboard.TextFrame.MarginTop = 66.8f;
+            artboard.TextFrame.MarginTop = 76.8f;
             artboard.TextFrame.TextRange.Font.Color.RGB = System.Drawing.Color.Black.ToArgb();
             artboard.Name = "Artboard " + (artboard.Id-1);
             artboard.Select();
         }
 
+        internal void ResizeArtboard(PowerPoint.Shape shp)
+        {
+            if (SlideSelection == null || SlideSelection.Count != 1) return;
+            //if (SlideScanner.Instance.LastScan == null) return;
+            //SnapDetector.Instance.ResizeShape(SlideScanner.Instance.LastScan, shp.Id, shp.Width, shp.Height);
+            //SlideScanner.Instance.ScanSlide(SlideSelection[1]);
+        }
+
         internal void DistributeHorizontally()
         {
-            throw new NotImplementedException();
+            if (Selection == null || Selection.Type != PowerPoint.PpSelectionType.ppSelectionShapes || Selection.ShapeRange.Count < 3)
+            {
+                return;
+            }
+            Selection.ShapeRange.Distribute(MsoDistributeCmd.msoDistributeHorizontally, MsoTriState.msoFalse);
+            List<Tuple<int, float>> shapeIds = new List<Tuple<int, float>>();
+            foreach (PowerPoint.Shape shape in Selection.ShapeRange)
+            {
+                shapeIds.Add(new Tuple<int, float>(shape.Id, shape.Left));
+            }
+            shapeIds.Sort((s1, s2) => s1.Item2.CompareTo(s2.Item2));
+            var scan = SlideScanner.Instance.ScanSlide(SlideSelection[1]);
+            SnapDetector.Instance.UpdateSnapCacheAfterHDist(scan, shapeIds);
+        }
+
+        internal void RecomputeConstraints()
+        {
+            if (SlideSelection == null || SlideSelection.Count != 1) return;
+            SnapDetector.Instance.UpdateSnapCache(SlideScanner.Instance.ScanSlide(SlideSelection[1]));
         }
 
         internal void DistributeVertically()
         {
-            throw new NotImplementedException();
+            if (Selection == null || Selection.Type != PowerPoint.PpSelectionType.ppSelectionShapes || Selection.ShapeRange.Count < 3)
+            {
+                return;
+            }
+            Selection.ShapeRange.Distribute(MsoDistributeCmd.msoDistributeVertically, MsoTriState.msoFalse);
+            List<Tuple<int, float>> shapeIds = new List<Tuple<int, float>>();
+            foreach (PowerPoint.Shape shape in Selection.ShapeRange)
+            {
+                shapeIds.Add(new Tuple<int, float>(shape.Id, shape.Top));
+            }
+            shapeIds.Sort((s1, s2) => s1.Item2.CompareTo(s2.Item2));
+            var scan = SlideScanner.Instance.ScanSlide(SlideSelection[1]);
+            SnapDetector.Instance.UpdateSnapCacheAfterVDist(scan, shapeIds);
         }
 
         internal void MakeSquare()
@@ -72,12 +111,24 @@ namespace PowerPointAddIn1
 
         internal void EqualizeHeights()
         {
-            throw new NotImplementedException();
+            if (Selection == null || Selection.Type != PowerPoint.PpSelectionType.ppSelectionShapes || Selection.ShapeRange.Count != 2)
+            {
+                return;
+            }
+            int id1 = Selection.ShapeRange[1].Id;
+            int id2 = Selection.ShapeRange[2].Id;
+            SnapDetector.Instance.EqualizeHeights(SlideScanner.Instance.ScanSlide(SlideSelection[1]), id1, id2);
         }
 
         internal void EqualizeWidths()
         {
-            throw new NotImplementedException();
+            if (Selection == null || Selection.Type != PowerPoint.PpSelectionType.ppSelectionShapes || Selection.ShapeRange.Count != 2)
+            {
+                return;
+            }
+            int id1 = Selection.ShapeRange[1].Id;
+            int id2 = Selection.ShapeRange[2].Id;
+            SnapDetector.Instance.EqualizeWidths(SlideScanner.Instance.ScanSlide(SlideSelection[1]), id1, id2);
         }
 
         public void PrintToNotes(string text)

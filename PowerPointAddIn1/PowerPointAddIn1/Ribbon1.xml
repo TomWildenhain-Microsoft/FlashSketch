@@ -4,6 +4,9 @@
 		<tabs>
 			<tab idMso="TabAddIns">
 				<group id="ContentGroup" label="FlashSketch">
+					<button id="newArtboardButton11" label="Recompute Constraints"
+						 screentip="Text" onAction="OnRecompute" imageMso="Refresh"
+						 supertip="Creates a new Artboard"/>
 					<button id="newArtboardButton" label="Equalize Widths"
 						 screentip="Text" onAction="OnEqualizeWidths" imageMso="SizeToControlWidth"
 						 supertip="Creates a new Artboard"/>

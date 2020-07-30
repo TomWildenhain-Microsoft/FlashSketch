@@ -72,6 +72,11 @@ namespace PowerPointAddIn1
             FlashSketch.Instance.EqualizeLineLengths();
         }
 
+        public void OnRecompute(Office.IRibbonControl control)
+        {
+            FlashSketch.Instance.RecomputeConstraints();
+        }
+
         #region IRibbonExtensibility Members
 
         public string GetCustomUI(string ribbonID)

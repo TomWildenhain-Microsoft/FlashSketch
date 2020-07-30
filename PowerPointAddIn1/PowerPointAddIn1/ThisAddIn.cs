@@ -50,7 +50,9 @@ namespace PowerPointAddIn1
         {
             if (shp.Name.StartsWith("Artboard "))
             {
+                Application.StartNewUndoEntry();
                 shp.TextFrame.MarginTop = shp.Height + 16.8f;
+                FlashSketch.Instance.ResizeArtboard(shp);
             }
         }
 

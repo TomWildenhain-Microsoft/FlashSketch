@@ -35,7 +35,7 @@ namespace PowerPointAddIn1
         {
             if (expr1.Poly2.PolyEquals(expr2.Poly2))
             {
-                return new CasExpr(CasPolynomial.PolySum(expr1.Poly1, expr2.Poly1), expr2.Poly2);
+                return new CasExpr(CasPolynomial.PolySum(expr1.Poly1, expr2.Poly1), expr2.Poly2).Simplify();
             }
             else
             {
@@ -43,7 +43,7 @@ namespace PowerPointAddIn1
                 var p2 = CasPolynomial.PolyProd(expr1.Poly2, expr2.Poly1);
                 var num = CasPolynomial.PolySum(p1, p2);
                 var denom = CasPolynomial.PolyProd(expr1.Poly2, expr2.Poly2);
-                return new CasExpr(num, denom);
+                return new CasExpr(num, denom).Simplify();
             }
         }
         public CasExpr Sub(CasExpr expr1, CasExpr expr2)
@@ -54,13 +54,13 @@ namespace PowerPointAddIn1
         {
             if (expr1.Poly1.PolyEquals(expr2.Poly2))
             {
-                return new CasExpr(expr2.Poly1, expr1.Poly2);
+                return new CasExpr(expr2.Poly1, expr1.Poly2).Simplify();
             }
             if (expr1.Poly2.PolyEquals(expr2.Poly1))
             {
-                return new CasExpr(expr1.Poly1, expr2.Poly2);
+                return new CasExpr(expr1.Poly1, expr2.Poly2).Simplify();
             }
-            return new CasExpr(CasPolynomial.PolyProd(expr1.Poly1, expr2.Poly1), CasPolynomial.PolyProd(expr1.Poly2, expr2.Poly2));
+            return new CasExpr(CasPolynomial.PolyProd(expr1.Poly1, expr2.Poly1), CasPolynomial.PolyProd(expr1.Poly2, expr2.Poly2)).Simplify();
         }
         public CasExpr Div(CasExpr expr1, CasExpr expr2)
         {
@@ -212,6 +212,18 @@ namespace PowerPointAddIn1
             expr.Poly1.GetUsedVariables(res);
             expr.Poly2.GetUsedVariables(res);
             return res;
+        }
+
+        public static int GCD(int a, int b)
+        {
+            while (a != 0 && b != 0)
+            {
+                if (Math.Abs(a) > Math.Abs(b))
+                    a %= b;
+                else
+                    b %= a;
+            }
+            return a | b;
         }
     }
 
@@ -369,6 +381,30 @@ namespace PowerPointAddIn1
             return res;
         }
 
+        public int TermGCD()
+        {
+            int res = 0;
+            foreach (var term in Terms)
+            {
+                res = CasSystem.GCD(res, term.Coefficient);
+            }
+            return res;
+        }
+
+        public CasPolynomial DivideTerms(int d)
+        {
+            CasPolynomial res = new CasPolynomial();
+            foreach (var term in Terms)
+            {
+                if (term.Coefficient % d != 0)
+                {
+                    throw new Exception("Attempt to divide polynomial by int it isn't divisible by");
+                }
+                res.Terms.Add(term.CopyWithCoefficient(term.Coefficient / d));
+            }
+            return res;
+        }
+
         public CasExpr Substitute(CasExpr expr, CasVar forV)
         {
             if (!ContainsVar(forV)) return new CasExpr(this, CasPolynomial.ConstantPoly(1));
@@ -495,6 +531,18 @@ namespace PowerPointAddIn1
         public override string ToString()
         {
             return Poly1.ToString() + "   //   " + Poly2.ToString();
+        }
+        public CasExpr Simplify()
+        {
+            int gcd = CasSystem.GCD(Poly1.TermGCD(), Poly2.TermGCD());
+            if (gcd == 0 || gcd == 1)
+            {
+                return this;
+            }
+            else
+            {
+                return new CasExpr(Poly1.DivideTerms(gcd), Poly2.DivideTerms(gcd));
+            }
         }
     }
 
