@@ -29,6 +29,7 @@ namespace PowerPointAddIn1
         private void Application_WindowSelectionChange(PowerPoint.Selection Sel)
         {
             FlashSketch.Instance.Selection = Sel;
+            FlashSketch.Instance.SoftRecomputeConstraints();
         }
 
         private void Application_SlideSelectionChanged(PowerPoint.SlideRange SldRange)
@@ -48,12 +49,13 @@ namespace PowerPointAddIn1
 
         private void Application_AfterShapeSizeChange(PowerPoint.Shape shp)
         {
-            if (shp.Name.StartsWith("Artboard "))
-            {
-                Application.StartNewUndoEntry();
-                shp.TextFrame.MarginTop = shp.Height + 16.8f;
-                FlashSketch.Instance.ResizeArtboard(shp);
-            }
+            //if (shp.Name.StartsWith("Artboard "))
+            //{
+            //    Application.StartNewUndoEntry();
+            //    shp.TextFrame.MarginTop = shp.Height + 16.8f;
+            //    FlashSketch.Instance.ResizeArtboard(shp);
+            //}
+            FlashSketch.Instance.ShapeResize(shp);
         }
 
         void Application_PresentationNewSlide(PowerPoint.Slide Sld)

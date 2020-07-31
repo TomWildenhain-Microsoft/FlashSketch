@@ -496,7 +496,7 @@ namespace PowerPointAddIn1
             foreach (var t in Terms)
             {
                 res += sep + t.ToString();
-                sep = " + ";
+                sep = "+";
             }
             return res;
         }
@@ -530,7 +530,7 @@ namespace PowerPointAddIn1
         }
         public override string ToString()
         {
-            return Poly1.ToString() + "   //   " + Poly2.ToString();
+            return Poly1.ToString() + "//" + Poly2.ToString();
         }
         public CasExpr Simplify()
         {

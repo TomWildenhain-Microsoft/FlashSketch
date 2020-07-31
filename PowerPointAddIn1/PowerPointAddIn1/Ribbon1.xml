@@ -3,31 +3,31 @@
 	<ribbon>
 		<tabs>
 			<tab idMso="TabAddIns">
-				<group id="ContentGroup" label="FlashSketch">
+				<group id="ContentGroup" label="SmartAlign">
 					<button id="newArtboardButton11" label="Recompute Constraints"
-						 screentip="Text" onAction="OnRecompute" imageMso="Refresh"
-						 supertip="Creates a new Artboard"/>
+						 screentip="Recompute Constraints" onAction="OnRecompute" imageMso="Refresh"
+						 supertip="Recompute Constraints"/>
 					<button id="newArtboardButton" label="Equalize Widths"
-						 screentip="Text" onAction="OnEqualizeWidths" imageMso="SizeToControlWidth"
-						 supertip="Creates a new Artboard"/>
+						 screentip="Equalize Widths" onAction="OnEqualizeWidths" imageMso="SizeToControlWidth"
+						 supertip="Equalize Widths"/>
 					<button id="newArtboardButton2" label="Equalize Heights"
-						 screentip="Text" onAction="OnEqualizeHeights" imageMso="SizeToControlHeight"
-						 supertip="Creates a new Artboard"/>
+						 screentip="Equalize Heights" onAction="OnEqualizeHeights" imageMso="SizeToControlHeight"
+						 supertip="Equalize Heights"/>
 					<button id="newArtboardButton3" label="Make Square"
-						 screentip="Text" onAction="OnMakeSquare" imageMso="SizeToControlHeightAndWidth"
-						 supertip="Creates a new Artboard"/>
+						 screentip="Make Square" onAction="OnMakeSquare" imageMso="SizeToControlHeightAndWidth"
+						 supertip="Make Square"/>
 					<button id="newArtboardButton4" label="Distribute Horizontally"
-						 screentip="Text" onAction="OnDistributeHorizontally" imageMso="AlignDistributeHorizontally"
-						 supertip="Creates a new Artboard"/>
+						 screentip="Distribute Horizontally" onAction="OnDistributeHorizontally" imageMso="AlignDistributeHorizontally"
+						 supertip="Distribute Horizontally"/>
 					<button id="newArtboardButton5" label="Distribute Vertically"
-						 screentip="Text" onAction="OnDistributeVertically" imageMso="AlignDistributeVertically"
-						 supertip="Creates a new Artboard"/>
+						 screentip="Distribute Vertically" onAction="OnDistributeVertically" imageMso="AlignDistributeVertically"
+						 supertip="Distribute Vertically"/>
 					<button id="newArtboardButton6" label="Equalize Line Lengths"
-						 screentip="Text" onAction="OnEqualizeLineLengths" imageMso="ControlLine"
-						 supertip="Creates a new Artboard"/>
-					<button id="newArtboardButton10" label="New Artboard"
-						 screentip="Text" onAction="OnNewArtboard" imageMso="ShadowOptionsDialog"
-						 supertip="Creates a new Artboard"/>
+						 screentip="Equalize Line Lengths" onAction="OnEqualizeLineLengths" imageMso="ControlLine"
+						 supertip="Equalize Line Lengths"/>
+					<toggleButton id="newArtboardButton12" label="Lock Constraints" onAction="OnLockConstraints" getPressed="GetPressedLockConstraints"
+						 screentip="Lock Constraints" imageMso="Lock"
+						 supertip="Lock Constraints"/>
 				</group>
 			</tab>
 		</tabs>

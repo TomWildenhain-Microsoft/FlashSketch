@@ -19,6 +19,8 @@ namespace PowerPointAddIn1
         public PowerPoint.Application Application = null;
         public PowerPoint.SlideRange SlideSelection = null;
         public PowerPoint.Selection Selection = null;
+        public bool LockContraints = false;
+        public Office.IRibbonUI Ribbon;
 
         public FlashSketch()
         {
@@ -51,8 +53,49 @@ namespace PowerPointAddIn1
             artboard.Select();
         }
 
+
+        public void ShapeResize(PowerPoint.Shape shp)
+        {
+            if (LockContraints && SlideScanner.Instance.LastScan != null)
+            {
+                float newWidth = shp.Width;
+                float newHeight = shp.Height;
+                var LastScan = SlideScanner.Instance.LastScan;
+                var prevWKey = SnapDetector.Instance.FloatToKey(LastScan[shp.Id].Width);
+                var prevHKey = SnapDetector.Instance.FloatToKey(LastScan[shp.Id].Height);
+                var currWKey = SnapDetector.Instance.FloatToKey(shp.Width);
+                var currHKey = SnapDetector.Instance.FloatToKey(shp.Height);
+                shp.Width = LastScan[shp.Id].Width;
+                shp.Height = LastScan[shp.Id].Height;
+                Application.StartNewUndoEntry();
+                if (prevWKey != currWKey)
+                {
+                    SnapDetector.Instance.SetShapeWidth(SlideScanner.Instance.ScanSlide(SlideSelection[1]), shp.Id, newWidth);
+                }
+                else
+                {
+                    SnapDetector.Instance.SetShapeHeight(SlideScanner.Instance.ScanSlide(SlideSelection[1]), shp.Id, newHeight);
+                }
+                LockContraints = false;
+                SlideScanner.Instance.ScanSlide(SlideSelection[1]);
+                Ribbon.Invalidate();
+            }
+            else if (LockContraints)
+            {
+                LockContraints = false;
+                Ribbon.Invalidate();
+            }
+            else
+            {
+                if (SlideSelection == null || SlideSelection.Count != 1) return;
+                FlashSketch.Instance.Application.StartNewUndoEntry();
+                SnapDetector.Instance.UpdateSnapCache(SlideScanner.Instance.ScanSlide(SlideSelection[1]));
+            }
+        }
+
         internal void ResizeArtboard(PowerPoint.Shape shp)
         {
+            Application.CommandBars.ExecuteMso("Undo");
             if (SlideSelection == null || SlideSelection.Count != 1) return;
             //if (SlideScanner.Instance.LastScan == null) return;
             //SnapDetector.Instance.ResizeShape(SlideScanner.Instance.LastScan, shp.Id, shp.Width, shp.Height);
@@ -65,6 +108,7 @@ namespace PowerPointAddIn1
             {
                 return;
             }
+            FlashSketch.Instance.Application.StartNewUndoEntry();
             Selection.ShapeRange.Distribute(MsoDistributeCmd.msoDistributeHorizontally, MsoTriState.msoFalse);
             List<Tuple<int, float>> shapeIds = new List<Tuple<int, float>>();
             foreach (PowerPoint.Shape shape in Selection.ShapeRange)
@@ -76,10 +120,20 @@ namespace PowerPointAddIn1
             SnapDetector.Instance.UpdateSnapCacheAfterHDist(scan, shapeIds);
         }
 
+        public void SoftRecomputeConstraints()
+        {
+            if (SlideSelection == null || SlideSelection.Count != 1) return;
+            var objs = SlideScanner.Instance.ScanSlide(SlideSelection[1]);
+            SnapDetector.Instance.UpdateSnapCache(objs);
+        }
+
         internal void RecomputeConstraints()
         {
             if (SlideSelection == null || SlideSelection.Count != 1) return;
-            SnapDetector.Instance.UpdateSnapCache(SlideScanner.Instance.ScanSlide(SlideSelection[1]));
+            var objs = SlideScanner.Instance.ScanSlide(SlideSelection[1]);
+            SnapDetector.Instance.UpdateSnapCache(objs);
+            FlashSketch.Instance.Application.StartNewUndoEntry();
+            SnapDetector.Instance.PrintConstraints(objs);
         }
 
         internal void DistributeVertically()
@@ -88,6 +142,7 @@ namespace PowerPointAddIn1
             {
                 return;
             }
+            FlashSketch.Instance.Application.StartNewUndoEntry();
             Selection.ShapeRange.Distribute(MsoDistributeCmd.msoDistributeVertically, MsoTriState.msoFalse);
             List<Tuple<int, float>> shapeIds = new List<Tuple<int, float>>();
             foreach (PowerPoint.Shape shape in Selection.ShapeRange)
@@ -105,6 +160,7 @@ namespace PowerPointAddIn1
             {
                 return;
             }
+            FlashSketch.Instance.Application.StartNewUndoEntry();
             int id = Selection.ShapeRange[1].Id;
             SnapDetector.Instance.MakeSquare(SlideScanner.Instance.ScanSlide(SlideSelection[1]), id);
         }
@@ -115,6 +171,7 @@ namespace PowerPointAddIn1
             {
                 return;
             }
+            FlashSketch.Instance.Application.StartNewUndoEntry();
             int id1 = Selection.ShapeRange[1].Id;
             int id2 = Selection.ShapeRange[2].Id;
             SnapDetector.Instance.EqualizeHeights(SlideScanner.Instance.ScanSlide(SlideSelection[1]), id1, id2);
@@ -126,6 +183,7 @@ namespace PowerPointAddIn1
             {
                 return;
             }
+            FlashSketch.Instance.Application.StartNewUndoEntry();
             int id1 = Selection.ShapeRange[1].Id;
             int id2 = Selection.ShapeRange[2].Id;
             SnapDetector.Instance.EqualizeWidths(SlideScanner.Instance.ScanSlide(SlideSelection[1]), id1, id2);
@@ -162,6 +220,7 @@ namespace PowerPointAddIn1
             {
                 return;
             }
+            FlashSketch.Instance.Application.StartNewUndoEntry();
             int id1 = Selection.ShapeRange[1].Id;
             int id2 = Selection.ShapeRange[2].Id;
             SnapDetector.Instance.EqualizeLongerDims(SlideScanner.Instance.ScanSlide(SlideSelection[1]), id1, id2);

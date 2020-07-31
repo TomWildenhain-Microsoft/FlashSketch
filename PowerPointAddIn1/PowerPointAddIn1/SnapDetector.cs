@@ -17,7 +17,7 @@ namespace PowerPointAddIn1
         Dictionary<string, SnapCacheEntry> CachedXs = new Dictionary<string, SnapCacheEntry>();
         Dictionary<string, SnapCacheEntry> CachedYs = new Dictionary<string, SnapCacheEntry>();
         Dictionary<string, SnapCacheEntry> CachedLengths = new Dictionary<string, SnapCacheEntry>();
-        // Dictionary<int, SlideObject> ObjectsToKeepUpdated = null;
+        Dictionary<int, SlideObject> ObjectsToKeepUpdated = null;
 
         CasSystem CAS;
         public SnapDetector()
@@ -29,12 +29,12 @@ namespace PowerPointAddIn1
         {
             UpdateSnapCache(slideObjects);
             FindExprsForSlideObjs(slideObjects);
-            //ObjectsToKeepUpdated = slideObjects;
+            ObjectsToKeepUpdated = slideObjects;
             var widthExpr = MakeExprForFloat(width, CachedLengths);
             EqualizeExpressions(widthExpr, slideObjects[shapeId].WidthExpr, widthExpr, slideObjects);
             var heightExpr = MakeExprForFloat(height, CachedLengths);
             EqualizeExpressions(heightExpr, slideObjects[shapeId].HeightExpr, heightExpr, slideObjects);
-            //ObjectsToKeepUpdated = null;
+            ObjectsToKeepUpdated = null;
         }
 
         public void EqualizeLongerDims(Dictionary<int, SlideObject> slideObjects, int shapeId1, int shapeId2)
@@ -72,6 +72,28 @@ namespace PowerPointAddIn1
             EqualizeExpressions(shape.HeightExpr, shape.WidthExpr, shape.ShorterDimExpr(), slideObjects);
         }
 
+        public void SetShapeWidth(Dictionary<int, SlideObject> slideObjects, int shapeId, float width)
+        {
+            UpdateSnapCache(slideObjects);
+            SlideObject shape = slideObjects[shapeId];
+            var widthExpr = MakeExprForFloat(width, CachedLengths);
+            AddOrMergeCacheEntry(widthExpr, CachedLengths, FloatToKey(width));
+            widthExpr = CachedLengths[FloatToKey(width)].Expr;
+            FindExprsForSlideObjs(slideObjects);
+            EqualizeExpressions(widthExpr, shape.WidthExpr, widthExpr, slideObjects);
+        }
+
+        public void SetShapeHeight(Dictionary<int, SlideObject> slideObjects, int shapeId, float height)
+        {
+            UpdateSnapCache(slideObjects);
+            SlideObject shape = slideObjects[shapeId];
+            var heightExpr = MakeExprForFloat(height, CachedLengths);
+            AddOrMergeCacheEntry(heightExpr, CachedLengths, FloatToKey(height));
+            heightExpr = CachedLengths[FloatToKey(height)].Expr;
+            FindExprsForSlideObjs(slideObjects);
+            EqualizeExpressions(heightExpr, shape.HeightExpr, heightExpr, slideObjects);
+        }
+
         public void EqualizeExpressions(CasExpr expr1, CasExpr expr2, CasExpr invariant, Dictionary<int, SlideObject> slideObjects)
         {
             var diffExpr = CAS.Sub(expr1, expr2);
@@ -97,12 +119,12 @@ namespace PowerPointAddIn1
             }
             if (bestSolution != null)
             {
-                //ObjectsToKeepUpdated = slideObjects;
+                ObjectsToKeepUpdated = slideObjects;
                 ReplaceVariable(bestVar, bestSolution);
-                //ObjectsToKeepUpdated = null;
+                ObjectsToKeepUpdated = null;
             }
 
-            FindExprsForSlideObjs(slideObjects);
+            // FindExprsForSlideObjs(slideObjects);
             SlideScanner.Instance.ApplyDimsToShapes(slideObjects, values);
             CacheEntries = new HashSet<SnapCacheEntry>();
             CachedXs = RebuildCache(CachedXs, values);
@@ -149,7 +171,6 @@ namespace PowerPointAddIn1
 
         public void UpdateSnapCacheAfterHDist(Dictionary<int, SlideObject> slideObjects, List<Tuple<int, float>> ids)
         {
-            FlashSketch.Instance.ClearNotes();
             foreach (var obj in slideObjects.Values)
             {
                 UpdateForDim(obj.X1, obj.CX, obj.X2, obj.Width, CachedXs);
@@ -168,7 +189,6 @@ namespace PowerPointAddIn1
                 FindExprsForSlideObjs(slideObjects);
             }
             RemoveUnusedVariables(slideObjects);
-            PrintConstraints(slideObjects);
         }
 
         public void PrintConstraints(Dictionary<int, SlideObject> slideObjects)
@@ -184,11 +204,17 @@ namespace PowerPointAddIn1
                 line += "y = \"" + obj.YExpr.ToString() + "\"}";
                 FlashSketch.Instance.PrintToNotes(line);
             }
-            FlashSketch.Instance.PrintToNotes(" --- Variables (Count=" + Variables.Count + ") --- ");
+            int i = 0;
+            string res = "";
             foreach (var v in Variables.Values)
             {
-                FlashSketch.Instance.PrintToNotes(v.Variable.Name + " = " + v.Value);
+                if (v.InUse)
+                {
+                    res += "\n" + (v.Variable.Name + " = " + v.Value);
+                    i++;
+                }
             }
+            FlashSketch.Instance.PrintToNotes(" --- Variables (Count=" + i + ") --- " + res);
         }
 
         public void UpdateSnapCacheAfterVDist(Dictionary<int, SlideObject> slideObjects, List<Tuple<int, float>> ids)
@@ -211,7 +237,7 @@ namespace PowerPointAddIn1
                 FindExprsForSlideObjs(slideObjects);
             }
             RemoveUnusedVariables(slideObjects);
-            PrintConstraints(slideObjects);
+            // PrintConstraints(slideObjects);
         }
 
         public void UpdateSnapCache(Dictionary<int, SlideObject> slideObjects)
@@ -222,7 +248,7 @@ namespace PowerPointAddIn1
                 UpdateForDim(obj.Y1, obj.CY, obj.Y2, obj.Height, CachedYs);
             }
             RemoveUnusedVariables(slideObjects);
-            PrintConstraints(slideObjects);
+            // PrintConstraints(slideObjects);
         }
 
         public CasExpr MakeExprForFloat(float value, Dictionary<string, SnapCacheEntry> cache)
@@ -294,16 +320,16 @@ namespace PowerPointAddIn1
             {
                 entry.Expr = CAS.Substitute(expr, variable, entry.Expr);
             }
-            //if (ObjectsToKeepUpdated != null)
-            //{
-            //    foreach (var obj in ObjectsToKeepUpdated.Values)
-            //    {
-            //        obj.HeightExpr = CAS.Substitute(expr, variable, obj.HeightExpr);
-            //        obj.WidthExpr = CAS.Substitute(expr, variable, obj.WidthExpr);
-            //        obj.XExpr = CAS.Substitute(expr, variable, obj.XExpr);
-            //        obj.YExpr = CAS.Substitute(expr, variable, obj.YExpr);
-            //    }
-            //}
+            if (ObjectsToKeepUpdated != null)
+            {
+                foreach (var obj in ObjectsToKeepUpdated.Values)
+                {
+                    obj.HeightExpr = CAS.Substitute(expr, variable, obj.HeightExpr);
+                    obj.WidthExpr = CAS.Substitute(expr, variable, obj.WidthExpr);
+                    obj.XExpr = CAS.Substitute(expr, variable, obj.XExpr);
+                    obj.YExpr = CAS.Substitute(expr, variable, obj.YExpr);
+                }
+            }
         }
 
         public string FloatToKey(float value)
@@ -342,6 +368,7 @@ namespace PowerPointAddIn1
                     }
                 }
             }
+            return;
             foreach (var entry in new List<VariableCacheEntry>(Variables.Values))
             {
                 // Remove unused variables

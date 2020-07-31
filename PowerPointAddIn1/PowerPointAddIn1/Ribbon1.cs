@@ -37,6 +37,7 @@ namespace PowerPointAddIn1
 
         public Ribbon1()
         {
+            
         }
         public void OnNewArtboard(Office.IRibbonControl control)
         {
@@ -77,6 +78,16 @@ namespace PowerPointAddIn1
             FlashSketch.Instance.RecomputeConstraints();
         }
 
+        public void OnLockConstraints(Office.IRibbonControl control, bool pressed)
+        {
+            FlashSketch.Instance.LockContraints = pressed;
+        }
+
+        public bool GetPressedLockConstraints(Office.IRibbonControl control)
+        {
+            return FlashSketch.Instance.LockContraints;
+        }
+
         #region IRibbonExtensibility Members
 
         public string GetCustomUI(string ribbonID)
@@ -92,6 +103,7 @@ namespace PowerPointAddIn1
         public void Ribbon_Load(Office.IRibbonUI ribbonUI)
         {
             this.ribbon = ribbonUI;
+            FlashSketch.Instance.Ribbon = ribbon;
         }
 
         #endregion

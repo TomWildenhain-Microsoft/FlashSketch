@@ -14,7 +14,7 @@ namespace PowerPointAddIn1
     class SlideScanner
     {
         public static SlideScanner Instance = new SlideScanner();
-        // public Dictionary<int, SlideObject> LastScan = null;
+        public Dictionary<int, SlideObject> LastScan = null;
         public SlideScanner()
         {
 
@@ -27,7 +27,7 @@ namespace PowerPointAddIn1
             {
                 ScanShape(shape, res, "");
             }
-            // LastScan = res;
+            LastScan = res;
             return res;
         }
 
@@ -46,7 +46,6 @@ namespace PowerPointAddIn1
 
         public void ApplyDimsToShapes(Dictionary<int, SlideObject> dimensions, Dictionary<CasVar, float> values)
         {
-            FlashSketch.Instance.Application.StartNewUndoEntry();
             foreach (SlideObject obj in dimensions.Values)
             {
                 obj.Shape.Width = CasSystem.Instance.Eval(obj.WidthExpr, values);

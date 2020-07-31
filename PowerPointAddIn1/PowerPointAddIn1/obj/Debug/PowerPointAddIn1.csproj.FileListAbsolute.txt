@@ -10,15 +10,15 @@ C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\powerpointauto\PowerPointAddIn1\
 C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\powerpointauto\PowerPointAddIn1\PowerPointAddIn1\obj\Debug\PowerPointAddIn1.csproj.CopyComplete
 C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\powerpointauto\PowerPointAddIn1\PowerPointAddIn1\obj\Debug\PowerPointAddIn1.dll
 C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\powerpointauto\PowerPointAddIn1\PowerPointAddIn1\obj\Debug\PowerPointAddIn1.pdb
-C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\bin\Debug\PowerPointAddIn1.dll
-C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\bin\Debug\PowerPointAddIn1.pdb
-C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\bin\Debug\PowerPointAddIn1.dll.manifest
-C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\bin\Debug\PowerPointAddIn1.vsto
 C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\bin\Debug\Microsoft.Office.Tools.Common.v4.0.Utilities.dll
 C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\obj\Debug\PowerPointAddIn1.csprojAssemblyReference.cache
 C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\obj\Debug\PowerPointAddIn1.Properties.Resources.resources
 C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\obj\Debug\PowerPointAddIn1.csproj.GenerateResource.cache
 C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\obj\Debug\PowerPointAddIn1.csproj.CoreCompileInputs.cache
 C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\obj\Debug\PowerPointAddIn1.csproj.CopyComplete
-C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\obj\Debug\PowerPointAddIn1.dll
-C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\obj\Debug\PowerPointAddIn1.pdb
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\bin\Debug\SmartAlign.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\bin\Debug\SmartAlign.pdb
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\bin\Debug\SmartAlign.dll.manifest
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\bin\Debug\SmartAlign.vsto
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\obj\Debug\SmartAlign.dll
+C:\Users\tomwi\OneDrive - Microsoft\FlashSketch\Git repo\PowerPointAddIn1\PowerPointAddIn1\obj\Debug\SmartAlign.pdb
